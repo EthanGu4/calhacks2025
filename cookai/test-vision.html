@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Google Vision API</title>
+</head>
+<body>
+    <h1>Test Google Vision API</h1>
+    <p>Open browser console to see debug info</p>
+    
+    <script>
+        // Test the API key
+        const API_KEY = 'AIzaSyBIdoL0-J09LONNgWvr9YK-bSdJm8OY_Os';
+        console.log('🔧 API Key Test:');
+        console.log('- Key loaded:', !!API_KEY);
+        console.log('- Key value:', API_KEY ? `${API_KEY.substring(0, 10)}...` : 'undefined');
+        console.log('- Full URL:', `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`);
+        
+        // Test a simple API call
+        fetch(`https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                requests: [{
+                    image: { content: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==' },
+                    features: [{ type: 'LABEL_DETECTION', maxResults: 1 }]
+                }]
+            })
+        })
+        .then(response => {
+            console.log('✅ API Key is working! Status:', response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log('📊 API Response:', data);
+        })
+        .catch(error => {
+            console.log('❌ API Error:', error);
+        });
+    </script>
+</body>
+</html>
